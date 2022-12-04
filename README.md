@@ -14,6 +14,12 @@ JPick | 一个简单的 Bilibili 视频下载器
 3. JSON 解析: Jackson https://github.com/FasterXML/jackson
 4. 视频处理: FFmpeg https://ffmpeg.org/
 
+---
+
+## 效果图
+![主界面](./gui_img/main.png)
+![下载](./gui_img/download.png)
+
 ## TODO
 1. Bilibili 视频地址代码解析的分离。
 2. 多线程下载多视频文件。

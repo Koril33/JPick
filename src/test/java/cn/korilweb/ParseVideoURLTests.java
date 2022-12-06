@@ -43,6 +43,7 @@ public class ParseVideoURLTests {
 
         try {
             Document doc = Jsoup.connect(urlStr).get();
+            System.out.println(doc.title());
             Elements script = doc.select("script");
 //            script.eachText().forEach(System.out::println);
             List<Element> elements = script.stream().filter(e -> e.data().startsWith(startFlag)).collect(Collectors.toList());
@@ -56,13 +57,13 @@ public class ParseVideoURLTests {
             JsonNode node = mapper.readTree(jsonDataStr);
             JsonNode urlNode = node.get("data").get("dash").get("video").get(0).get("baseUrl");
 
-            BufferedInputStream in = Jsoup.connect(urlNode.asText())
-                    .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
-                    .header("Referer", urlStr)
-                    .ignoreContentType(true)
-                    .execute().bodyStream();
+//            BufferedInputStream in = Jsoup.connect(urlNode.asText())
+//                    .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
+//                    .header("Referer", urlStr)
+//                    .ignoreContentType(true)
+//                    .execute().bodyStream();
 
-            Files.copy(in, Path.of("./test.mp4"));
+//            Files.copy(in, Path.of("./test.mp4"));
 //            System.out.println(urlNode.asText());
 
         } catch (IOException e) {

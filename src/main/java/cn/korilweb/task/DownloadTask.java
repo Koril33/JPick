@@ -96,7 +96,7 @@ public class DownloadTask extends Task<Void> {
                     " -map 0:v -map 1:a -c:v copy -c:a copy " +
                     outputPath +
                     " -y";
-            System.out.println(cmd);
+
             Runtime.getRuntime().exec(cmd);
         }
         return null;

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="614.0" style="-fx-background-color: #484848;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.korilweb.controller.IndexController">
+<AnchorPane prefHeight="398.0" prefWidth="913.0" style="-fx-background-color: #484848;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.korilweb.controller.IndexController">
    <children>
       <AnchorPane layoutY="-2.0" style="-fx-background-color: #2f2f2f;">
          <children>
@@ -31,9 +31,9 @@
             </VBox>
          </children>
       </AnchorPane>
-      <ScrollPane layoutX="207.0" layoutY="30.0" prefHeight="348.0" prefWidth="393.0">
+      <ScrollPane layoutX="207.0" layoutY="29.0" prefHeight="336.0" prefWidth="685.0" style="-fx-background-color: #484848;">
          <content>
-            <VBox fx:id="taskStack" prefHeight="335.0" prefWidth="393.0" style="-fx-background-color: #3b3b3b;" />
+            <VBox fx:id="taskStack" prefHeight="339.0" prefWidth="670.0" style="-fx-background-color: #484848;" />
          </content>
       </ScrollPane>
    </children>

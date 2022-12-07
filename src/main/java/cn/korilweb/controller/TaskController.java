@@ -56,11 +56,9 @@ public class TaskController implements Initializable {
         taskDTO.setTotal(totalCheckBox.isSelected());
 
 
-        System.out.println(taskDTO);
-
         Stage window = (Stage) anchorPane.getScene().getWindow();
         window.close();
-        System.out.println("new Task Confirm: " + indexController);
+
         indexController.startDownload(taskDTO);
     }
 

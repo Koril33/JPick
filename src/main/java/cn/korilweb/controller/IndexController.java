@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -44,7 +45,7 @@ public class IndexController implements Initializable {
 
     @FXML
     void newTask(ActionEvent event) {
-        System.out.println(this);
+
         Stage stage = new Stage();
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("task.fxml"));
@@ -78,8 +79,9 @@ public class IndexController implements Initializable {
             throw new RuntimeException(e);
         }
         Pane pane = fxmlLoader.getRoot();
-        Label label = (Label) pane.getChildren().get(0);
-        ProgressBar bar = (ProgressBar) pane.getChildren().get(1);
+        HBox hBox = (HBox) pane.getChildren().get(1);
+        Label label = (Label) hBox.getChildren().get(0);
+        ProgressBar bar = (ProgressBar) pane.getChildren().get(0);
         stack.getChildren().add(pane);
 
         downloadBiliBiliVideo(label, bar, dto);

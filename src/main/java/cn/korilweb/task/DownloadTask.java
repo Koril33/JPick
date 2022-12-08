@@ -6,6 +6,7 @@ import org.jsoup.Jsoup;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -29,12 +30,17 @@ public class DownloadTask extends Task<Void> {
 
     @Override
     protected Void call() throws Exception {
+        download();
+        return null;
+    }
+
+    public void download() throws IOException {
         var desPath = Path.of(desPathStr);
 
         String fileName = dto.getTitle().replace(" ", "_")
-                                        .replace("/", "_")
-                                        .replace("\\", "_")
-                                        .replace(".", "_");
+                .replace("/", "_")
+                .replace("\\", "_")
+                .replace(".", "_");
 
         var videoPath = desPath.resolve(fileName + "_video.mp4");
         var audioPath = desPath.resolve(fileName + "_audio.mp3");
@@ -99,6 +105,5 @@ public class DownloadTask extends Task<Void> {
 
             Runtime.getRuntime().exec(cmd);
         }
-        return null;
     }
 }

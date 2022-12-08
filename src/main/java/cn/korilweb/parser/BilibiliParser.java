@@ -10,22 +10,37 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * 负责解析页面 DOM
+ * 提取出视频文件的真是下载路径
+ */
 public class BilibiliParser {
 
     private final static String START_FLAG = "window.__playinfo__=";
 
     private static final DownloadInfoDTO dto = new DownloadInfoDTO();
 
+    private static final Map<String, String> headers = new HashMap<>();
+
+
     public static DownloadInfoDTO getDownloadInfoDTO(String originURLStr) throws IOException {
+
+        headers.put("cookie", "buvid3=CBC66AE2-C2A5-4E8D-8945-8174D3DE924444830infoc; b_nut=1669544044; i-wanna-go-back=-1; _uuid=F88BD1013-6A52-A173-B846-B8AB572E5A9244516infoc; buvid4=A681E54A-EAC9-0341-9446-519249FF38A346272-022112718-tojfRpuJ15zGRCf9YDz9Vw%3D%3D; buvid_fp_plain=undefined; nostalgia_conf=-1; rpdid=|(YYYYYkRm|0J'uYYmlRRuuJ; theme_style=light; share_source_origin=WEIXIN; LIVE_BUVID=AUTO6616696471146826; bsource=share_source_weixinchat; CURRENT_BLACKGAP=0; bp_video_offset_3305808=736975160779735200; fingerprint=27a474934b7a5f9933f5dd8ac3e571fe; SESSDATA=6de6c410%2C1686010508%2C7fd68%2Ac2; bili_jct=b241f03b66a45ab0028ba9e2a80afad2; DedeUserID=384605143; DedeUserID__ckMd5=c089376be03f8134; buvid_fp=ff273554b1e03ec1556b0c0e84928445; sid=5nbt1xco; b_ut=5; bp_video_offset_384605143=737201020219686900; b_lsid=1058A11B6_184F0B3C4A9; innersign=0; PVID=3; CURRENT_FNVAL=4048");
+        headers.put("referer", "https://www.bilibili.com/movie/?spm_id_from=333.1007.0.0");
+        headers.put("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36");
 
         dto.setOriginURL(new URL(originURLStr));
 
         // Jsoup 获取视频原始 DOM
-        Document doc = Jsoup.connect(originURLStr).get();
-
+        Document doc = Jsoup.connect(originURLStr)
+                            .headers(headers)
+                            .get();
         // 视频标题
         String title = doc.title();
         dto.setTitle(title);
@@ -45,7 +60,7 @@ public class BilibiliParser {
         String originStr = elements.get(0).data();
         // 去掉开头的特殊字符，获取完整的 JSON 字符串
         String jsonDataStr = originStr.substring(START_FLAG.length());
-
+        System.out.println(jsonDataStr);
         // Jackson 解析 JSON 字符串
         ObjectMapper mapper = new ObjectMapper();
         JsonNode node = mapper.readTree(jsonDataStr);
@@ -54,17 +69,32 @@ public class BilibiliParser {
         JsonNode videoUrlNode = node.get("data").get("dash").get("video").get(0).get("baseUrl");
         JsonNode audioUrlNode = node.get("data").get("dash").get("audio").get(0).get("baseUrl");
         // 视频+音频总大小
-        JsonNode videoSizeNode = node.get("data").get("dash").get("video").get(0).get("bandwidth");
-        JsonNode audioSizeNode = node.get("data").get("dash").get("audio").get(0).get("bandwidth");
-        JsonNode durationNode = node.get("data").get("dash").get("duration");
-        long size = (videoSizeNode.asLong() + audioSizeNode.asLong()) * durationNode.asLong() / 8;
+//        JsonNode videoSizeNode = node.get("data").get("dash").get("video").get(0).get("bandwidth");
+//        JsonNode audioSizeNode = node.get("data").get("dash").get("audio").get(0).get("bandwidth");
+//        JsonNode durationNode = node.get("data").get("dash").get("duration");
+//        long size = (videoSizeNode.asLong() + audioSizeNode.asLong()) * durationNode.asLong() / 8;
 
         String videoUrlStr = videoUrlNode.asText();
         String audioUrlStr = audioUrlNode.asText();
 
+        // 获取视频文件总大小
+        URLConnection vCon = new URL(videoUrlStr).openConnection();
+        vCon.setRequestProperty("referer", dto.getOriginURL().toString());
+        long vSize = vCon.getContentLengthLong();
+
+        System.out.println("video size: " + vSize);
+
+        // 获取音频文件总大小
+        URLConnection aCon = new URL(audioUrlStr).openConnection();
+        aCon.setRequestProperty("referer", dto.getOriginURL().toString());
+        long aSize = aCon.getContentLengthLong();
+
+        System.out.println("audio size: " + aSize);
+
+
         dto.setVideoURL(new URL(videoUrlStr));
         dto.setAudioURL(new URL(audioUrlStr));
-        dto.setSize(size);
+        dto.setSize(vSize + aSize);
 
         return dto;
     }

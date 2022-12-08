@@ -1,11 +1,20 @@
 package cn.korilweb.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.net.URL;
 import java.nio.file.Path;
 
+
+/**
+ * 用户下载的地址通过 Jsoup 解析 DOM 后，
+ * 存储文件信息于该类
+ */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DownloadInfoDTO {
 
     /**

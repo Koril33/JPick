@@ -31,7 +31,7 @@ public class BilibiliParser {
 
     public static DownloadInfoDTO getDownloadInfoDTO(String originURLStr) throws IOException {
 
-        headers.put("cookie", "buvid3=CBC66AE2-C2A5-4E8D-8945-8174D3DE924444830infoc; b_nut=1669544044; i-wanna-go-back=-1; _uuid=F88BD1013-6A52-A173-B846-B8AB572E5A9244516infoc; buvid4=A681E54A-EAC9-0341-9446-519249FF38A346272-022112718-tojfRpuJ15zGRCf9YDz9Vw%3D%3D; buvid_fp_plain=undefined; nostalgia_conf=-1; rpdid=|(YYYYYkRm|0J'uYYmlRRuuJ; theme_style=light; share_source_origin=WEIXIN; LIVE_BUVID=AUTO6616696471146826; bsource=share_source_weixinchat; CURRENT_BLACKGAP=0; bp_video_offset_3305808=736975160779735200; fingerprint=27a474934b7a5f9933f5dd8ac3e571fe; SESSDATA=6de6c410%2C1686010508%2C7fd68%2Ac2; bili_jct=b241f03b66a45ab0028ba9e2a80afad2; DedeUserID=384605143; DedeUserID__ckMd5=c089376be03f8134; buvid_fp=ff273554b1e03ec1556b0c0e84928445; sid=5nbt1xco; b_ut=5; bp_video_offset_384605143=737201020219686900; b_lsid=1058A11B6_184F0B3C4A9; innersign=0; PVID=3; CURRENT_FNVAL=4048");
+//        headers.put("cookie", "");
         headers.put("referer", "https://www.bilibili.com/movie/?spm_id_from=333.1007.0.0");
         headers.put("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36");
 

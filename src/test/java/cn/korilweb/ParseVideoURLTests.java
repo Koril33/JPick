@@ -14,10 +14,7 @@ import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.CopyOption;
@@ -26,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -79,6 +77,12 @@ public class ParseVideoURLTests {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    void parseTest() throws IOException {
+        DownloadInfoDTO downloadInfoDTO = BilibiliParser.getDownloadInfoDTO("https://www.bilibili.com/video/BV1tP4y1Q7jC/?vd_source=9c191f5acdee17439ba76e3e048ef3f7");
+        System.out.println(downloadInfoDTO.getVideoURL());
     }
 
     @Test
